@@ -48,6 +48,16 @@ export default function View() {
         });
     };
 
+    const bindEditToDo = (handler) => {
+        const todoList = getElement(".todo-list");
+        todoList.addEventListener("change", (event) => {
+            if (event.target.type === "checkbox") {
+                const id = parseInt(event.target.parentElement.id)
+                handler(id);
+            }
+        });
+    };
+
     const configure = () => {
         const root = getElement("#root");
         const title = createElement('h1', "title");
@@ -97,5 +107,5 @@ export default function View() {
         }
     };
 
-    return { createElement, getElement, renderToDos, bindAddToDo, handleValue, bindRemoveToDo, bindToggleToDo };
+    return { createElement, getElement, renderToDos, bindAddToDo, handleValue, bindRemoveToDo, bindToggleToDo, bindEditToDo };
 }

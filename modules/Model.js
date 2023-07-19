@@ -1,12 +1,8 @@
 export default function Model() {
-    let _onToDoChange = () => { };
-    let _todos = [
-        { id: 1, text: "learn javascript", completed: true },
-        { id: 2, text: "seek for a job", completed: false },
-    ];
+    let _onToDoChange = () => {};
+    let _todos = JSON.parse(localStorage.getItem("todo"));
 
     const getToDos = () => {
-        console.log(_todos);
         return _todos;
     };
 
@@ -18,27 +14,40 @@ export default function Model() {
         };
         _todos.push(todo);
         _onToDoChange(_todos);
+        updateLocalStorage();
     };
+
     let removeToDo = (id) => {
-       _todos =  _todos.filter(todo => todo.id !== id);
-        console.log(_todos)
+        _todos = _todos.filter((todo) => todo.id !== id);
         _onToDoChange(_todos);
+        updateLocalStorage();
     };
+
     let editToDo = (id, text) => {
-        _todos = _todos.map(todo => {
+        _todos = _todos.map((todo) => {
             if (todo.id !== id) return todo;
             return { ...todo, text };
         });
+        _onToDoChange(_todos);
+        updateLocalStorage();
     };
+
     let toggleToDo = (id) => {
-        _todos = _todos.map(todo => {
+        _todos = _todos.map((todo) => {
             if (todo.id !== id) return todo;
             return { ...todo, completed: !todo.completed };
         });
         _onToDoChange(_todos);
+        updateLocalStorage();
     };
+
     const bindToDoChange = (callback) => {
         _onToDoChange = callback;
     };
-    return { addToDo, removeToDo, editToDo, toggleToDo, getToDos, bindToDoChange };
+
+    const updateLocalStorage = () => {
+        localStorage.setItem("todo", JSON.stringify(_todos));
+    };
+
+    return { addToDo, removeToDo, editToDo, toggleToDo, getToDos, bindToDoChange , updateLocalStorage};
 }

@@ -20,7 +20,8 @@ export default function Controller(model, view){
     view.bindAddToDo(_handleAddToDo);
     view.bindRemoveToDo(_handleRemoveToDo);
     view.bindToggleToDo(_handleToggleToDo);
-    model.bindToDoChange(onToDoChange)
+    view.bindEditToDo(_handleEditToDo);
+    model.bindToDoChange(onToDoChange);
     
     return {};
 }
