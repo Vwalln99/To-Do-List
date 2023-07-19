@@ -7,6 +7,7 @@ export default function Controller(model, view){
         model.addToDo(toDoText);
     };
     const _handleRemoveToDo=(id)=>{
+
          model.removeToDo(id);
     };
     const _handleEditToDo=(id, text)=>{
@@ -17,7 +18,9 @@ export default function Controller(model, view){
     };
     
     view.bindAddToDo(_handleAddToDo);
-    model.bindToDoChange(onToDoChange);
+    view.bindRemoveToDo(_handleRemoveToDo);
+    view.bindToggleToDo(_handleToggleToDo);
+    model.bindToDoChange(onToDoChange)
     
     return {};
 }

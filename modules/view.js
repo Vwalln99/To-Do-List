@@ -28,6 +28,26 @@ export default function View() {
         });
     }
 
+    const bindRemoveToDo = (handler) => {
+        const todoList = getElement(".todo-list");
+        todoList.addEventListener("click", (event) => {
+            if (event.target.className === "delete") {
+                const id = parseInt(event.target.parentElement.id)
+                handler(id);
+            }
+        });
+    };
+
+    const bindToggleToDo = (handler) => {
+        const todoList = getElement(".todo-list");
+        todoList.addEventListener("change", (event) => {
+            if (event.target.type === "checkbox") {
+                const id = parseInt(event.target.parentElement.id)
+                handler(id);
+            }
+        });
+    };
+
     const configure = () => {
         const root = getElement("#root");
         const title = createElement('h1', "title");
@@ -59,7 +79,7 @@ export default function View() {
                 listElement.id = todo.id;
                 const checkbox = createElement('input');
                 checkbox.type = "checkbox";
-                checkbox.checkbox = todo.completed;
+                checkbox.checked = todo.completed;
                 const span = createElement('span', "editable");
                 span.contentEditable = true;
                 if (todo.completed) {
@@ -77,5 +97,5 @@ export default function View() {
         }
     };
 
-    return { createElement, getElement, renderToDos, bindAddToDo, handleValue };
+    return { createElement, getElement, renderToDos, bindAddToDo, handleValue, bindRemoveToDo, bindToggleToDo };
 }

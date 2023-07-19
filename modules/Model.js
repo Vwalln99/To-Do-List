@@ -1,6 +1,6 @@
 export default function Model() {
     let _onToDoChange = () => { };
-    const _todos = [
+    let _todos = [
         { id: 1, text: "learn javascript", completed: true },
         { id: 2, text: "seek for a job", completed: false },
     ];
@@ -19,20 +19,23 @@ export default function Model() {
         _todos.push(todo);
         _onToDoChange(_todos);
     };
-    const removeToDo = (id) => {
-        _todos.filter(todo => todo.id !== id);
+    let removeToDo = (id) => {
+       _todos =  _todos.filter(todo => todo.id !== id);
+        console.log(_todos)
+        _onToDoChange(_todos);
     };
-    const editToDo = (id, text) => {
+    let editToDo = (id, text) => {
         _todos = _todos.map(todo => {
             if (todo.id !== id) return todo;
             return { ...todo, text };
         });
     };
-    const toggleToDo = (id) => {
+    let toggleToDo = (id) => {
         _todos = _todos.map(todo => {
             if (todo.id !== id) return todo;
             return { ...todo, completed: !todo.completed };
         });
+        _onToDoChange(_todos);
     };
     const bindToDoChange = (callback) => {
         _onToDoChange = callback;
