@@ -21,8 +21,8 @@ export default function View() {
         const form = getElement("form");
         form.addEventListener("submit", (event) => {
             event.preventDefault();
-            const [todoText, resetInput] = handleValue();
-            handler(todoText());
+            const [toDoText, resetInput] = handleValue();
+            handler(toDoText());
             resetInput();
 
         });

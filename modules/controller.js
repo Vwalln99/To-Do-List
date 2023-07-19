@@ -3,8 +3,8 @@ export default function Controller(model, view){
         view.renderToDos(todos)
     };
     onToDoChange(model.getToDos());
-    const _handleAddToDo=()=>{
-        model.addToDo(todoText);
+    const _handleAddToDo=(toDoText)=>{
+        model.addToDo(toDoText);
     };
     const _handleRemoveToDo=(id)=>{
          model.removeToDo(id);
