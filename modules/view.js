@@ -38,34 +38,28 @@ export default function View() {
         });
     };
 
+    const bindEditToDo = (handler) => {
+        const todoList = getElement(".todo-list");
+        todoList.addEventListener("focusout", (event) => {
+                const id = parseInt(event.target.parentElement.id);
+                const currentText=event.target.innerText;
+                if (_tempTodoText !== currentText) {
+                    handler(id, _tempTodoText);
+                }
+        });
+    };
+
     const bindToggleToDo = (handler) => {
         const todoList = getElement(".todo-list");
         todoList.addEventListener("change", (event) => {
             if (event.target.type === "checkbox") {
                 const id = parseInt(event.target.parentElement.id);
-                const completed = event.target.checked;
-                handler(id, completed);
+                handler(id);
             }
         });
     };
 
-    const _initTempListener=()=>{
-        const toDoList=document.querySelector(".todo-list");
-        toDoList.addEventListener("input", (event)=>{
-            if(event.target.className==="editable"){
-                _tempTodoText=event.target.innerText;
-            }
-        });
-    };
-    _initTempListener();
 
-    const bindEditToDo = (handler) => {
-        const todoList = getElement(".todo-list");
-        todoList.addEventListener("focusout", (event) => {
-                const id = parseInt(event.target.parentElement.id);
-                handler(id, _tempTodoText);
-        });
-    };
 
     const configure = () => {
         const root = getElement("#root");
@@ -83,6 +77,16 @@ export default function View() {
         root.append(title, form, toDoList);
     };
     configure();
+
+    const _initTempListener=()=>{
+        const todoList=document.querySelector(".todo-list");
+        todoList.addEventListener("input", (event)=>{
+            if(event.target.className==="editable"){
+                _tempTodoText=event.target.innerText;
+            }
+        });
+    };
+    _initTempListener();
 
 
     const renderToDos = (todos) => {
