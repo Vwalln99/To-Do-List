@@ -1,29 +1,27 @@
 export default function Model() {
-    let _onToDoChange = () => {};
+    let _onToDoChange = () => { };
     let _todos = JSON.parse(localStorage.getItem("todos")) || [];
 
-    const _pushtodos = (todos) =>{
+    const pushtodos = (todos) => {
         _onToDoChange(todos);
         localStorage.setItem("todos", JSON.stringify(todos));
     }
 
-    const getToDos = () => {
-        return _todos;
-    };
+    const getToDos = () => _todos;
 
     const addToDo = (text) => {
         const todo = {
-            id: _todos.length + 1,
+            id: _todos.length > 0 ? _todos[_todos.length - 1].id + 1 : 1,
             text,
             completed: false,
         };
         _todos.push(todo);
-        _pushtodos(_todos);
+        pushtodos(_todos);
     };
 
     const removeToDo = (id) => {
         _todos = _todos.filter((todo) => todo.id !== id);
-        _pushtodos(_todos);
+        pushtodos(_todos);
     };
 
     const editToDo = (id, text) => {
@@ -31,7 +29,7 @@ export default function Model() {
             if (todo.id !== id) return todo;
             return { ...todo, text };
         });
-        _pushtodos(_todos);
+        pushtodos(_todos);
     };
 
     const toggleToDo = (id) => {
@@ -39,7 +37,7 @@ export default function Model() {
             if (todo.id !== id) return todo;
             return { ...todo, completed: !todo.completed };
         });
-        _pushtodos(_todos);
+        pushtodos(_todos);
     };
 
     const bindToDoChange = (callback) => {
@@ -47,5 +45,5 @@ export default function Model() {
     };
 
 
-    return { addToDo, removeToDo, editToDo, toggleToDo, getToDos, bindToDoChange};
+    return { addToDo, removeToDo, editToDo, toggleToDo, getToDos, bindToDoChange };
 }

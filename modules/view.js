@@ -1,5 +1,4 @@
 export default function View() {
-    let _tempTodoText="";
     const createElement = (tag, className) => {
         const element = document.createElement(tag);
         className && element.classList.add(className);
@@ -42,10 +41,9 @@ export default function View() {
         const todoList = getElement(".todo-list");
         todoList.addEventListener("focusout", (event) => {
                 const id = parseInt(event.target.parentElement.id);
-                const currentText=event.target.innerText;
-                if (_tempTodoText !== currentText) {
-                    handler(id, _tempTodoText);
-                }
+                //const text=event.target.textContent;
+                console.log(_initTempListener(event));
+                    handler(id, _initTempListener(event));
         });
     };
 
@@ -78,15 +76,16 @@ export default function View() {
     };
     configure();
 
-    const _initTempListener=()=>{
+    const _initTempListener=(event)=>{
+        let _tempTodoText="";
         const todoList=document.querySelector(".todo-list");
-        todoList.addEventListener("input", (event)=>{
+       // todoList.addEventListener("input", (event)=>{
             if(event.target.className==="editable"){
                 _tempTodoText=event.target.innerText;
             }
-        });
+        //});
+        return _tempTodoText;
     };
-    _initTempListener();
 
 
     const renderToDos = (todos) => {
