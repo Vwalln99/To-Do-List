@@ -1,4 +1,5 @@
 export default function View() {
+    let _tempTodoText="";
     const createElement = (tag, className) => {
         const element = document.createElement(tag);
         className && element.classList.add(className);
@@ -24,15 +25,14 @@ export default function View() {
             const [toDoText, resetInput] = handleValue();
             handler(toDoText());
             resetInput();
-
         });
-    }
+    };
 
     const bindRemoveToDo = (handler) => {
         const todoList = getElement(".todo-list");
         todoList.addEventListener("click", (event) => {
             if (event.target.className === "delete") {
-                const id = parseInt(event.target.parentElement.id)
+                const id = parseInt(event.target.parentElement.id);
                 handler(id);
             }
         });
@@ -42,19 +42,28 @@ export default function View() {
         const todoList = getElement(".todo-list");
         todoList.addEventListener("change", (event) => {
             if (event.target.type === "checkbox") {
-                const id = parseInt(event.target.parentElement.id)
-                handler(id);
+                const id = parseInt(event.target.parentElement.id);
+                const completed = event.target.checked;
+                handler(id, completed);
             }
         });
     };
 
+    const _initTempListener=()=>{
+        const toDoList=document.querySelector(".todo-list");
+        toDoList.addEventListener("input", (event)=>{
+            if(event.target.className==="editable"){
+                _tempTodoText=event.target.innerText;
+            }
+        });
+    };
+    _initTempListener();
+
     const bindEditToDo = (handler) => {
         const todoList = getElement(".todo-list");
-        todoList.addEventListener("change", (event) => {
-            if (event.target.type === "checkbox") {
-                const id = parseInt(event.target.parentElement.id)
-                handler(id);
-            }
+        todoList.addEventListener("focusout", (event) => {
+                const id = parseInt(event.target.parentElement.id);
+                handler(id, _tempTodoText);
         });
     };
 
@@ -68,12 +77,13 @@ export default function View() {
         input.placeholder = "Add To-Do";
         input.name = "todo";
         const submitButton = createElement("button");
-        submitButton.textContent = "Add"
+        submitButton.textContent = "Add";
         const toDoList = createElement("ul", "todo-list");
         form.append(input, submitButton);
-        root.append(title, form, toDoList)
+        root.append(title, form, toDoList);
     };
     configure();
+
 
     const renderToDos = (todos) => {
         const toDoList = getElement(".todo-list");
@@ -106,6 +116,8 @@ export default function View() {
             });
         }
     };
+
+    
 
     return { createElement, getElement, renderToDos, bindAddToDo, handleValue, bindRemoveToDo, bindToggleToDo, bindEditToDo };
 }
