@@ -40,12 +40,15 @@ export default function View() {
     const bindEditToDo = (handler) => {
         const todoList = getElement(".todo-list");
         todoList.addEventListener("focusout", (event) => {
-                const id = parseInt(event.target.parentElement.id);
-                //const text=event.target.textContent;
-                console.log(_initTempListener(event));
-                    handler(id, _initTempListener(event));
+          if (event.target.className === "editable") {
+            const id = parseInt(event.target.parentElement.id);
+            const text = event.target.textContent;
+            handler(id, text);
+          }
         });
-    };
+      };
+    
+    
 
     const bindToggleToDo = (handler) => {
         const todoList = getElement(".todo-list");
